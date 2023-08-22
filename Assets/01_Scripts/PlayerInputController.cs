@@ -10,12 +10,17 @@ public class PlayerInputController : MonoBehaviour
     public Vector2 MoveDir
     {
         get { return moveDir; }
-        set { moveDir = value; }
+        set 
+        { 
+            moveDir = value;
+        }
     }
-
     private void OnMove(InputValue value)
     {
         MoveDir = value.Get<Vector2>();
-        Debug.Log($" x : {MoveDir.x} / y : {MoveDir.y}");
+    }
+    private void OnJoyStickMove()
+    {
+        Debug.Log("test");
     }
 }
