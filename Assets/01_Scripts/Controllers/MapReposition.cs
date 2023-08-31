@@ -52,7 +52,7 @@ public class MapReposition : MonoBehaviour
                 }
                 break;
             
-    }
+        }
         
     }
 }

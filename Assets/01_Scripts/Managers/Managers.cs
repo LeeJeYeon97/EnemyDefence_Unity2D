@@ -8,7 +8,12 @@ public class Managers : MonoBehaviour
     static Managers Instance { get { return s_instance; } }
 
     PoolManager _pool = new PoolManager();
+    UIManager _ui = new UIManager();
+    DataManager _data = new DataManager();
     public static PoolManager Pool { get { return s_instance._pool; } }
+    public static UIManager UI { get { return s_instance._ui; } }
+    public static DataManager Data { get { return s_instance._data; } }
+
     private void Awake()
     {
         Init();    
@@ -28,6 +33,7 @@ public class Managers : MonoBehaviour
             s_instance = go.GetComponent<Managers>();
 
             s_instance._pool.Init();
+            s_instance._data.Init();
         }
     }
 }

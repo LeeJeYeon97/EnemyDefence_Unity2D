@@ -1,6 +1,8 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerController : CreatureController
 {
@@ -8,7 +10,7 @@ public class PlayerController : CreatureController
     #region ----- Private Component
 
     private PlayerInputController _input;
-    
+
     #endregion
 
     #region ----- Private
@@ -17,18 +19,30 @@ public class PlayerController : CreatureController
 
     #region ----- Public
 
+    public float maxExP;
+    public float curExp;
+
+    public int level;
+    public int kill;
+
     #endregion
 
+    public Action GetExpAction;
 
+    public List<GameObject> _weaponList = new List<GameObject>();
     protected override void Init()
     {
         base.Init();
         _input = GetComponent<PlayerInputController>();
         MoveSpeed = 3.0f;
+        maxExP = 10;
+        curExp = 0;
+        level = 1;
     }
 
     private void FixedUpdate()
     {
+        
         if (IsDie) return;
         
         Move();
@@ -54,5 +68,24 @@ public class PlayerController : CreatureController
 
         if (!_anim.GetCurrentAnimatorStateInfo(0).IsName("Hit"))
             _anim.SetTrigger("Hit");
+    }
+    public void GetExp(int exp)
+    {
+        curExp += exp;
+        if (curExp >= maxExP)
+        {
+            LevelUp();
+            curExp = 0;
+            maxExP *= 2;
+        }
+        GetExpAction.Invoke();
+    }
+    private void LevelUp()
+    {
+        level++;
+
+        GameManager.Instance.IsPause = true;
+
+        Managers.UI.ShowPopupUI<UI_LevelUpPopup>("LevelUpPopup");
     }
 }

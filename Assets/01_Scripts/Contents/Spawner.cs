@@ -17,7 +17,7 @@ public class Spawner : MonoBehaviour
         {
             _spawnPoints[i] = spawnPointGroup.GetChild(i).transform;
         }
-
+        
         spawnTime = 1.0f;
         StartCoroutine(CoSpawn());
     }
@@ -32,7 +32,7 @@ public class Spawner : MonoBehaviour
     private void Spawn()
     {
         int randPosIndex = Random.Range(0, _spawnPoints.Length);
-        GameObject go = Managers.Pool.Get(GameManager.Instance.level);
+        GameObject go = Managers.Pool.Get("Monster");
         go.GetComponent<MonsterController>().SpawnInit(GameManager.Instance.level);
         go.transform.position = _spawnPoints[randPosIndex].position;
     }

@@ -5,7 +5,9 @@ using UnityEngine.Windows;
 
 public class MonsterController : CreatureController
 {
-    private GameObject _target;
+    private PlayerController _target;
+    public RuntimeAnimatorController[] RunAnim;
+    private Define.MonsterName _monsterName;
 
     protected override void Init()
     {
@@ -16,23 +18,28 @@ public class MonsterController : CreatureController
         switch (monsterLevel)
         {
             // bat
-            case 0:
+            case (int)Define.MonsterName.Bat:
                 MaxHp = 1;
                 MoveSpeed = 1.0f;
+                _monsterName = Define.MonsterName.Bat;
                 break;
-            case 1:
+            case (int)Define.MonsterName.Chicken:
                 MaxHp = 2;
                 MoveSpeed = 2.0f;
+                _monsterName = Define.MonsterName.Chicken;
                 break;
-            case 2:
+            case (int)Define.MonsterName.Bunny:
                 MaxHp = 3;
                 MoveSpeed = 3.0f;
+                _monsterName = Define.MonsterName.Bunny;
                 break;
-            case 3:
+            case (int)Define.MonsterName.Rino:
                 MaxHp = 4;
                 MoveSpeed = 4.0f;
+                _monsterName = Define.MonsterName.Rino;
                 break;
         }
+        _anim.runtimeAnimatorController = RunAnim[monsterLevel];
         _target = GameManager.Instance.Player;
         _collider.enabled = true;
         IsDie = false;
@@ -40,6 +47,7 @@ public class MonsterController : CreatureController
     }
     private void FixedUpdate()
     {
+        
         if (IsDie) return;
 
         Move();
@@ -67,20 +75,26 @@ public class MonsterController : CreatureController
     }
     public override void OnDamge(float damage)
     {
+        if (IsDie) return;
+
         CurHp -= damage;
 
         if(CurHp <= 0)
         {
             IsDie = true;
             _collider.enabled = false;
+
             _anim.SetTrigger("Die");
-            float time = _anim.GetCurrentAnimatorStateInfo(0).length;
-            StartCoroutine(CoDie(time));
+            _target.kill++;
+            _target.GetExpAction.Invoke();
         }
     }
-    IEnumerator CoDie(float time)
+    public void DieEvent()
     {
-        yield return new WaitForSeconds(time);
+        // Item»ý¼º
+        GameObject go = Managers.Pool.Get("Item");
+        go.GetComponent<ItemController>().SpawnInit((int)_monsterName);
+        go.transform.position = transform.position;
         gameObject.SetActive(false);
     }
 }

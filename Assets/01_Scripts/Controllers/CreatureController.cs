@@ -31,7 +31,7 @@ public class CreatureController : MonoBehaviour
     [Range(0f, 20f)]
     protected float AttackPower;
 
-    protected bool IsDie = false;
+    public bool IsDie = false;
     #endregion
 
     private void Awake()
