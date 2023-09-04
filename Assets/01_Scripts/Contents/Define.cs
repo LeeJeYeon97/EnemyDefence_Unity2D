@@ -26,10 +26,14 @@ public class Define
     }
     public enum ItemList
     {
-        Exp,
+        Exp0,
+        Exp1,
+        Exp2,
+        Exp3,
         Box,
         Health,
         Mag,
+        Chest,
     }
     public enum MonsterType
     {
@@ -42,6 +46,15 @@ public class Define
         Saw,
         Sword,
         Gun,
+    }
+    public enum Stats
+    {
+        Base,
 
+    }
+    public enum LevelUpStats
+    {
+        Speed,
+        Health,
     }
 }

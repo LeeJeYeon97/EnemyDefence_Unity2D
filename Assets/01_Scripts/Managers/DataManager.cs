@@ -3,28 +3,45 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class DataManager 
 {
-    public Dictionary<string, WeaponData> _weaponDatas = new Dictionary<string, WeaponData>();
+    public Dictionary<string, ScriptableObject> _datas = new Dictionary<string, ScriptableObject>();
 
     public void Init()
+    {
+        SetWeaponData();
+        SetStatData();
+    }
+
+    private void SetWeaponData()
     {
         int length = Enum.GetValues(typeof(Define.WeaponType)).Length;
 
         for (int i = 0; i < length; i++)
         {
             string name = Enum.GetName(typeof(Define.WeaponType), i);
-            WeaponData obj = Resources.Load<WeaponData>($"Data/WeaponData/{name}Data");
-            _weaponDatas.Add(name, obj);
+            ScriptableObject data = Resources.Load<ScriptableObject>($"Data/WeaponData/{name}Data");
+            _datas.Add(name, data);
         }
     }
-
-    public WeaponData GetWeaponData(string key)
+    private void SetStatData() 
     {
-        if (!_weaponDatas.ContainsKey(key))
-            return null;
+        int length = Enum.GetValues(typeof(Define.Stats)).Length;
 
-        return _weaponDatas[key];
+        for (int i = 0; i < length; i++)
+        {
+            string name = Enum.GetName(typeof(Define.Stats), i);
+            ScriptableObject data = Resources.Load<ScriptableObject>($"Data/StatData/{name}Data");
+            _datas.Add(name, data);
+        }
+    }
+    public T GetData<T>(string key) where T : ScriptableObject
+    {
+        if (!_datas.ContainsKey(key))
+            return null;
+    
+        return _datas[key] as T;
     }
 }

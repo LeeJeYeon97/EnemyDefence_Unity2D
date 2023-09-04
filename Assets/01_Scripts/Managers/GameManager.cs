@@ -38,9 +38,11 @@ public class GameManager : MonoBehaviour
         _instance = this;
 
         Player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
-        maxLevel = Enum.GetValues(typeof(Define.MonsterName)).Length;
-        maxGameTime = maxLevel * 10.0f;
-
+        //maxLevel = Enum.GetValues(typeof(Define.MonsterName)).Length;
+        level = 1;
+        maxLevel = 10;
+        maxGameTime = maxLevel * 60.0f;
+        
         Managers.UI.ShowPopupUI<UI_SelectPopup>("SelectPopup");
 
         IsPause = true;
@@ -57,7 +59,7 @@ public class GameManager : MonoBehaviour
             Time.timeScale = 1;
             gameTime += Time.deltaTime;
 
-            level = Mathf.FloorToInt(gameTime / 1000f);
+            level = Mathf.FloorToInt(gameTime / 120.0f);
             if (gameTime > maxGameTime)
             {
                 gameTime = maxGameTime;

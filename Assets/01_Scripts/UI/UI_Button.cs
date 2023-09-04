@@ -14,17 +14,16 @@ public class UI_Button : UI_Base
         LevelUp,
     }
     public ButtonType type;
-    
+
     enum Texts
     {
         WeaponText
     }
     enum Images
     {
-        WeaponIcon,   
+        WeaponIcon,
     }
 
-    private int level;
     private Image _image;
     private Text _text;
 
@@ -33,14 +32,17 @@ public class UI_Button : UI_Base
         //Bind<Button>(typeof(Buttons));
         Bind<Text>(typeof(Texts));
         Bind<Image>(typeof(Images));
-        
+
         _image = Get<Image>((int)Images.WeaponIcon);
         _text = Get<Text>((int)Texts.WeaponText);
     }
-    public void SetButton(WeaponData data,GameObject go = null)
+    public void SetWeaponButton(string key, GameObject go = null)
     {
         Init();
+
         Button button = gameObject.GetComponent<Button>();
+
+        WeaponData data = Managers.Data.GetData<WeaponData>(key);
         switch (type)
         {
             case ButtonType.Select:
@@ -56,6 +58,28 @@ public class UI_Button : UI_Base
                 break;
         }
     }
+    public void SetStatButton(string key, GameObject go = null)
+    {
+        Init();
+
+        Button button = gameObject.GetComponent<Button>();
+        PlayerStatController stat = GameManager.Instance.Player.GetComponent<PlayerStatController>();
+
+        switch (key)
+        {
+            case "Speed":
+                _image.sprite = stat._data.SpeedIcon;
+                _text.text = $"Lv : {stat.speedLevel}";
+                button.onClick.AddListener(() => LevelUpStat(key,stat));
+                break;
+            case "Health":
+                _image.sprite = stat._data.healthIcon;
+                _text.text = $"Lv : {stat.healthLevel}";
+                button.onClick.AddListener(() => LevelUpStat(key,stat));
+                break;
+        }
+    }
+
     public void SelectWeapon(WeaponData data)
     {
         GameObject go;
@@ -69,6 +93,7 @@ public class UI_Button : UI_Base
                 weapon.transform.SetParent(GameManager.Instance.Player.transform);
                 break;
             case Define.WeaponType.Sword:
+
                 break;
             case Define.WeaponType.Gun:
                 go = Resources.Load<GameObject>("Weapon/GunWeapon");
@@ -86,6 +111,21 @@ public class UI_Button : UI_Base
         // TODO
         weapon.GetComponent<WeaponController>().LevelUp();
 
+        Managers.UI.ClosePopupUI();
+    }
+    public void LevelUpStat(string key,PlayerStatController stat)
+    {
+        switch (key)
+        {
+            case "Speed":
+                stat.speedLevel++;
+                break;
+            case "Health":
+                stat.healthLevel++;
+                break;
+        }
+        GameManager.Instance.Player.GetComponent<PlayerStatController>().LevelUpStat();
+        GameManager.Instance.IsPause = false;
         Managers.UI.ClosePopupUI();
     }
 }

@@ -20,7 +20,7 @@ public class GunController : WeaponController
         base.Init();
         scanRange = 5.0f;
         monsterLayer = LayerMask.GetMask("Monster");
-        _data = Managers.Data.GetWeaponData(Enum.GetName(typeof(Define.WeaponType), Define.WeaponType.Gun));
+        _data = Managers.Data.GetData<WeaponData>(Enum.GetName(typeof(Define.WeaponType), Define.WeaponType.Gun));
         _damage = _data.Damages[Level - 1];
         _attackDelay = _data.attackDelay[Level - 1];
     }
@@ -70,6 +70,6 @@ public class GunController : WeaponController
     public override void LevelUp()
     {
         base.LevelUp();
-        
+
     }
 }

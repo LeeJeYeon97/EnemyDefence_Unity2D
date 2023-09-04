@@ -10,8 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 3044381661968454836}
   - component: {fileID: 5789774868448717597}
+  - component: {fileID: -886583240157261744}
   - component: {fileID: 4888915321015534860}
-  - component: {fileID: 7394130475672112092}
   - component: {fileID: -8916148457045786011}
   m_Layer: 0
   m_Name: Item
@@ -34,7 +34,7 @@ Transform:
   m_Children:
   - {fileID: 7062913351232847320}
   m_Father: {fileID: 0}
-  m_RootOrder: 8
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &5789774868448717597
 SpriteRenderer:
@@ -88,6 +88,33 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!50 &-886583240157261744
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1954931708328467375}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 0
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 4
 --- !u!58 &4888915321015534860
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -123,27 +150,6 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.3
---- !u!95 &7394130475672112092
-Animator:
-  serializedVersion: 5
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1954931708328467375}
-  m_Enabled: 0
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 1201f2ded57c62f42a5fa41e0f755d57, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
 --- !u!114 &-8916148457045786011
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -161,6 +167,9 @@ MonoBehaviour:
   - {fileID: 21300000, guid: b7169c21225b1f04ab520fd934e0cd2c, type: 3}
   - {fileID: 21300000, guid: e0d237a6d693d244ab936f97209438d1, type: 3}
   - {fileID: 21300000, guid: 436d8a990a1a0ad4fa3e3239c39a361f, type: 3}
+  - {fileID: 21300000, guid: 2db5712e8e5f2274d9683dbbe8c71c9a, type: 3}
+  - {fileID: 21300000, guid: 15cc575b0d9a36846838578bfb080819, type: 3}
+  - {fileID: 21300000, guid: 50fc0b00f1cca6d4198745eee8695886, type: 3}
 --- !u!1 &9014959625814360542
 GameObject:
   m_ObjectHideFlags: 0

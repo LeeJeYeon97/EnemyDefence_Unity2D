@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.Windows;
 
 public class MonsterController : CreatureController
@@ -8,6 +9,8 @@ public class MonsterController : CreatureController
     private PlayerController _target;
     public RuntimeAnimatorController[] RunAnim;
     private Define.MonsterName _monsterName;
+
+    public Slider hpBar;
 
     protected override void Init()
     {
@@ -44,11 +47,15 @@ public class MonsterController : CreatureController
         _collider.enabled = true;
         IsDie = false;
         CurHp = MaxHp;
+
+        hpBar.value = CurHp / MaxHp;
     }
     private void FixedUpdate()
     {
         
         if (IsDie) return;
+
+        hpBar.value = CurHp / MaxHp;
 
         Move();
     }
@@ -79,16 +86,19 @@ public class MonsterController : CreatureController
 
         CurHp -= damage;
 
-        if(CurHp <= 0)
+        hpBar.value = CurHp / MaxHp;
+
+        if (CurHp <= 0)
         {
             IsDie = true;
             _collider.enabled = false;
 
             _anim.SetTrigger("Die");
             _target.kill++;
-            _target.GetExpAction.Invoke();
+            _target._stat.GetExpAction.Invoke();
         }
     }
+    // 애니메이션 이벤트에서 호출
     public void DieEvent()
     {
         // Item생성

@@ -38,9 +38,8 @@ public class UI_SelectWeapon : UI_Base
             go.transform.localScale = Vector3.one;
 
             string key = Enum.GetName(typeof(Define.WeaponType), i);
-            WeaponData data = Managers.Data.GetWeaponData(key);
 
-            go.GetComponent<UI_Button>().SetButton(data);
+            go.GetComponent<UI_Button>().SetWeaponButton(key);
         }
     }
 

@@ -17,6 +17,7 @@ public class SawController : WeaponController
     }
     void Update()
     {
+        
         SawsRotation();
     }
 
@@ -24,7 +25,7 @@ public class SawController : WeaponController
     {
         base.Init();
 
-        _data = Managers.Data.GetWeaponData(Enum.GetName(typeof(Define.WeaponType),Define.WeaponType.Saw));
+        _data = Managers.Data.GetData<WeaponData>(Enum.GetName(typeof(Define.WeaponType),Define.WeaponType.Saw));
         _damage = _data.Damages[Level - 1];
 
         RotationSpeed = 200.0f;
@@ -36,13 +37,12 @@ public class SawController : WeaponController
     }
     private void SawsRotation()
     {
-        // 캐릭터 주변 회전
-        //transform.eulerAngles += new Vector3(0, 0, RotationSpeed * Time.deltaTime);
         transform.Rotate(Vector3.back * RotationSpeed * Time.deltaTime);
-
         // 칼날 회전
         for (int i = 0; i< Level; i++)
         {
+            if (saws[i] == null) return;
+
             saws[i].Rotate(Vector3.forward * sawRotationSpeed * Time.deltaTime);
         }
     }
@@ -61,7 +61,7 @@ public class SawController : WeaponController
             saw.transform.parent = transform;
             Vector3 rotVec = Vector3.forward * 360 * i / Level;
             saw.transform.localRotation = Quaternion.Euler(rotVec);
-            Debug.Log(saw.transform.up);
+            
             Vector3 posVec = saw.transform.up * 1.5f;
             saw.transform.localPosition = posVec;
             saws[i] = saw.transform;

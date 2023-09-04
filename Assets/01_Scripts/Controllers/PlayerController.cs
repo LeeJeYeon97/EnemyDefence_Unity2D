@@ -7,37 +7,29 @@ using UnityEngine.UI;
 public class PlayerController : CreatureController
 {
 
-    #region ----- Private Component
+    #region ----- Private
 
     private PlayerInputController _input;
 
     #endregion
 
-    #region ----- Private
-
-    #endregion
-
     #region ----- Public
+    public List<GameObject> _weaponList = new List<GameObject>();
 
-    public float maxExP;
-    public float curExp;
+    public PlayerStatController _stat;
 
-    public int level;
     public int kill;
 
+    public CircleCollider2D itemCollider;
     #endregion
 
-    public Action GetExpAction;
-
-    public List<GameObject> _weaponList = new List<GameObject>();
+    
     protected override void Init()
     {
         base.Init();
         _input = GetComponent<PlayerInputController>();
-        MoveSpeed = 3.0f;
-        maxExP = 10;
-        curExp = 0;
-        level = 1;
+        _stat = GetComponent<PlayerStatController>();
+
     }
 
     private void FixedUpdate()
@@ -56,7 +48,7 @@ public class PlayerController : CreatureController
         }
         _anim.SetFloat("Speed", _input.MoveDir.magnitude);
 
-        _rb.MovePosition(_rb.position + _input.MoveDir.normalized * Time.fixedDeltaTime * MoveSpeed);
+        _rb.MovePosition(_rb.position + _input.MoveDir.normalized * Time.fixedDeltaTime * _stat.moveSpeed);
         
     }
     private void OnCollisionEnter2D(Collision2D collision)
@@ -69,23 +61,5 @@ public class PlayerController : CreatureController
         if (!_anim.GetCurrentAnimatorStateInfo(0).IsName("Hit"))
             _anim.SetTrigger("Hit");
     }
-    public void GetExp(int exp)
-    {
-        curExp += exp;
-        if (curExp >= maxExP)
-        {
-            LevelUp();
-            curExp = 0;
-            maxExP *= 2;
-        }
-        GetExpAction.Invoke();
-    }
-    private void LevelUp()
-    {
-        level++;
-
-        GameManager.Instance.IsPause = true;
-
-        Managers.UI.ShowPopupUI<UI_LevelUpPopup>("LevelUpPopup");
-    }
+    
 }

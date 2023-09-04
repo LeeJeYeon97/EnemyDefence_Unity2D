@@ -5,7 +5,11 @@ using System;
 public class WeaponController : MonoBehaviour
 {
     protected int _maxLevel;
-
+    public int MaxLevel
+    {
+        get { return _maxLevel; }
+        set { _maxLevel = value; }
+    }
     protected int _level;
     public int Level
     {
@@ -28,5 +32,8 @@ public class WeaponController : MonoBehaviour
     {
         Level++;
         _damage = _data.Damages[Level - 1];
+
+        if(_data.attackDelay.Length > 0)
+            _attackDelay = _data.attackDelay[Level - 1];
     }
 }

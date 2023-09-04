@@ -1,0 +1,31 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 921a5f0085ee0f04b955d22fd5f5a339, type: 3}
+  m_Name: BaseData
+  m_EditorClassIdentifier: 
+  Type: 0
+  Icon: {fileID: 0}
+  Level: 1
+  maxExp: 25
+  MaxHp: 100
+  hpLevel: 1
+  healthRatio: 0.5
+  healthIcon: {fileID: 21300000, guid: 87a7c4321fd50514c8e41d6779a071da, type: 3}
+  speedLevel: 1
+  maxSpeedLevel: 5
+  speedDatas:
+  - 2
+  - 3
+  - 4
+  - 5
+  - 6
+  SpeedIcon: {fileID: 21300000, guid: 29a1226f7b5e20240942612e151c3c4c, type: 3}

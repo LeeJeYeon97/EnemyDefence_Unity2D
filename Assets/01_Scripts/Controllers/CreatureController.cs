@@ -21,11 +21,11 @@ public class CreatureController : MonoBehaviour
 
     [SerializeField]
     [Range(0f, 20f)]
-    protected float CurHp;
+    public float CurHp;
 
     [SerializeField]
     [Range(0f, 20f)]
-    protected float MaxHp;
+    public float MaxHp;
 
     [SerializeField]
     [Range(0f, 20f)]

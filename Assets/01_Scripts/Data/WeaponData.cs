@@ -16,7 +16,4 @@ public class WeaponData : ScriptableObject
     public float Damage;
     public float[] Damages;
     public float[] attackDelay;
-
-
-
 }

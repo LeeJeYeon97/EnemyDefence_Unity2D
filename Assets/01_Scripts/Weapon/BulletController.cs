@@ -20,7 +20,7 @@ public class BulletController : MonoBehaviour
         _target = target;
         _damage = data.Damage;
         _count = count;
-        bulletSpeed = 10.0f;
+        bulletSpeed = count == 5 ? 20.0f :10.0f; // 레벨이 5이면 bullet속도증가
         _dir = _target.position - transform.position;
 
     }
