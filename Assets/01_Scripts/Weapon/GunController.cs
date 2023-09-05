@@ -59,11 +59,26 @@ public class GunController : WeaponController
         if (targets.Length == 0) return;
         if (nearestTarget == null) return;
 
+        
         _attackDelay -= Time.deltaTime;
         if (_attackDelay <= 0)
         {
-            GameObject bullet = Managers.Pool.Get(Enum.GetName(typeof(Define.PoolObject), Define.PoolObject.Bullet));
-            bullet.GetComponent<BulletController>().SetTarget(nearestTarget, _data,Level);
+            if(Level == 5)
+            {
+                GameObject[] bullets = new GameObject[3];
+                for(int i = 0; i < 3; i++)
+                {
+                    GameObject bullet = Managers.Pool.Get(Enum.GetName(typeof(Define.PoolObject), Define.PoolObject.Bullet));
+                    bullets[i] = bullet;
+                }
+                bullets[0].GetComponent<BulletController>().SetTarget(_data, Level, nearestTarget,bullets);
+            }
+            else
+            {
+                GameObject bullet = Managers.Pool.Get(Enum.GetName(typeof(Define.PoolObject), Define.PoolObject.Bullet));
+                bullet.GetComponent<BulletController>().SetTarget(_data, Level, nearestTarget);
+            }
+            
             _attackDelay = _data.attackDelay[Level - 1];
         }
     }

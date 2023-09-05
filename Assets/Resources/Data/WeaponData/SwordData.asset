@@ -13,8 +13,19 @@ MonoBehaviour:
   m_Name: SwordData
   m_EditorClassIdentifier: 
   Type: 1
-  WeaponName: "\uAC80"
-  WeaponDesc: "\uC804\uBC29\uC758 \uC801\uB4E4\uC744 \uBCA0\uC5B4\uBC84\uB9BD\uB2C8\uB2E4."
-  Icon: {fileID: 21300000, guid: ee84fb1991a7c854ea7e1d8f3dab4c64, type: 3}
-  Damage: 1
-  Damages: []
+  WeaponName: "\uBABD\uB465\uC774"
+  WeaponDesc: "\uC804\uBC29\uC758 \uC801\uB4E4\uC744 \uB0A0\uB824\uBC84\uB9BD\uB2C8\uB2E4."
+  Icon: {fileID: 21300000, guid: fdfaeaacef5eca8438ea03581927aaaf, type: 3}
+  Damage: 3
+  Damages:
+  - 3
+  - 4
+  - 5
+  - 6
+  - 7
+  attackDelay:
+  - 1
+  - 0.8
+  - 0.7
+  - 0.6
+  - 0.5

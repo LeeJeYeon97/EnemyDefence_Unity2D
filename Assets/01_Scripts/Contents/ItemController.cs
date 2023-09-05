@@ -18,6 +18,8 @@ public class ItemController : MonoBehaviour
     private bool isHit;
     private bool isFollow;
 
+    private float curRadius;
+
     private void Awake()
     {
         _sprite = GetComponent<SpriteRenderer>();
@@ -88,23 +90,29 @@ public class ItemController : MonoBehaviour
                     break;
                 case Define.ItemList.Health:
                     collision.GetComponent<PlayerStatController>().curHp += 30;
+                    gameObject.SetActive(false);
                     break;
                 case Define.ItemList.Chest:
                     // ¹«±â ·£´ý »Ì±â
+                    Managers.UI.ShowPopupUI<UI_SelectPopup>("SelectPopup");
+                    GameManager.Instance.IsPause = true;
+                    gameObject.SetActive(false);
                     break;
                 default:
                     collision.GetComponent<PlayerStatController>().GetExp(exp);
+                    gameObject.SetActive(false);
                     break;
             }
-            gameObject.SetActive(false);
+            
         }
     }
     IEnumerator CoMagItem()
     {
-        float curRadius = GameManager.Instance.Player.itemCollider.radius;
+        curRadius = GameManager.Instance.Player.itemCollider.radius;
         GameManager.Instance.Player.itemCollider.radius = 100.0f;
         yield return new WaitForSeconds(1.0f);
-        GameManager.Instance.Player.itemCollider.radius = curRadius;
+        GameManager.Instance.Player.itemCollider.radius = 0.5f;
+        gameObject.SetActive(false);
     }
     private void RandomItem()
     {

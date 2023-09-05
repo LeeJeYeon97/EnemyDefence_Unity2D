@@ -9,7 +9,7 @@ public class PlayerController : CreatureController
 
     #region ----- Private
 
-    private PlayerInputController _input;
+    public PlayerInputController _input;
 
     #endregion
 

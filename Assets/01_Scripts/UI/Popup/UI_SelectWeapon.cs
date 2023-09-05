@@ -26,6 +26,8 @@ public class UI_SelectWeapon : UI_Base
 
         int length = Enum.GetValues(typeof(Define.WeaponType)).Length;
 
+        List<GameObject> weaponList = GameManager.Instance.Player._weaponList;
+
         foreach (Transform child in panel.transform)
         {
             Destroy(child.gameObject);
@@ -33,6 +35,19 @@ public class UI_SelectWeapon : UI_Base
 
         for (int i = 0; i < length; i++)
         {
+            bool check = false;
+            foreach(var weapon in weaponList)
+            {
+                WeaponData data = weapon.GetComponent<WeaponController>()._data;
+                if(Enum.GetName(typeof(Define.WeaponType),data.Type) == 
+                    Enum.GetName(typeof(Define.WeaponType),i))
+                {
+                    check = true;
+                }
+            }
+            if (check) continue;
+
+            
             GameObject go = Instantiate(buttonPrefab);
             go.transform.SetParent(panel.transform);
             go.transform.localScale = Vector3.one;

@@ -32,7 +32,7 @@ public class UI_Hud : UI_Scene
         LevelText,
     }
 
-    private void Start()
+    private void Awake()
     {
         Init();
     }

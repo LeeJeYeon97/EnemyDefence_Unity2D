@@ -91,6 +91,8 @@ public class UI_Button : UI_Base
                 weapon = Instantiate(go);
                 GameManager.Instance.Player.GetComponent<PlayerController>()._weaponList.Add(weapon);
                 weapon.transform.SetParent(GameManager.Instance.Player.transform);
+                weapon.transform.rotation = Quaternion.Euler(Vector3.zero);
+                weapon.transform.localPosition = Vector3.zero;
                 break;
             case Define.WeaponType.Sword:
 
@@ -100,6 +102,8 @@ public class UI_Button : UI_Base
                 weapon = Instantiate(go);
                 GameManager.Instance.Player.GetComponent<PlayerController>()._weaponList.Add(weapon);
                 weapon.transform.SetParent(GameManager.Instance.Player.transform);
+                weapon.transform.rotation = Quaternion.Euler(Vector3.zero);
+                weapon.transform.localPosition = Vector3.zero;
                 break;
         }
         GameManager.Instance.IsPause = false;
