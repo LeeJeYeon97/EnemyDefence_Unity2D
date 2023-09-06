@@ -63,7 +63,10 @@ public class GunController : WeaponController
         _attackDelay -= Time.deltaTime;
         if (_attackDelay <= 0)
         {
-            if(Level == 5)
+            if (targets.Length == 0) return;
+            if (nearestTarget == null) return;
+
+            if (Level == 5)
             {
                 GameObject[] bullets = new GameObject[3];
                 for(int i = 0; i < 3; i++)

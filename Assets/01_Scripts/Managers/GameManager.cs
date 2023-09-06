@@ -2,7 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UI;
 using System;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -33,6 +35,9 @@ public class GameManager : MonoBehaviour
 
     public bool IsPause = false;
 
+    public Image fadeImage;
+    public bool fadeIn = true;
+    public bool GameStart = false;
     private void Awake()
     {
         _instance = this;
@@ -42,13 +47,33 @@ public class GameManager : MonoBehaviour
         level = 1;
         maxLevel = 10;
         maxGameTime = maxLevel * 60.0f;
+        fadeImage = GameObject.Find("FadeImage").GetComponent<Image>();
+        fadeIn = true;
         
-        Managers.UI.ShowPopupUI<UI_SelectPopup>("SelectPopup");
-
-        IsPause = true;
     }
     private void Update()
     {
+        if (GameStart == false && fadeIn)
+        {
+            if (fadeImage.color.a <= 0)
+            {
+                fadeIn = false;
+                Managers.UI.ShowPopupUI<UI_SelectPopup>("SelectPopup");
+                IsPause = true;
+                GameStart = true;
+
+            }
+            FadeIn();
+        }
+        else if(GameStart == false && !fadeIn)
+        {
+            FadeOut();
+            if(fadeImage.color.a >= 1)
+            {
+                Managers.Pool.ClearPool();
+                SceneManager.LoadScene("LobbyScene");
+            }
+        }
         if(IsPause)
         {
             Time.timeScale = 0;
@@ -65,6 +90,27 @@ public class GameManager : MonoBehaviour
                 gameTime = maxGameTime;
             }            
         }
-        
+    }
+    void FadeIn()
+    {
+        UnityEngine.Color color = fadeImage.color;
+
+        if (color.a > 0)
+            color.a -= Time.deltaTime;
+
+        fadeImage.color = color;
+
+    }
+    void FadeOut()
+    {
+        // image의 color 프로퍼티는 a(알파값)변수만 따로 저장이 불가능해 전체값을 저장
+
+        UnityEngine.Color color = fadeImage.color;
+        // 알파값이 0보다 크면 알파값 감소
+        if (color.a < 1)
+        {
+            color.a += Time.deltaTime;
+        }
+        fadeImage.color = color;
     }
 }

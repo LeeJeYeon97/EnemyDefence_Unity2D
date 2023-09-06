@@ -82,4 +82,15 @@ public class PoolManager
         pools[key].Add(temp);
         return temp;
     }
+    public void ClearPool()
+    {
+        foreach(List<GameObject> pool in pools.Values)
+        {
+            foreach(GameObject go in pool)
+            {
+                if (go.activeSelf == true)
+                    go.SetActive(false);
+            }
+        }
+    }
 }

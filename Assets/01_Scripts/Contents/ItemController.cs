@@ -60,7 +60,6 @@ public class ItemController : MonoBehaviour
         
             transform.Translate(dir.normalized * Time.deltaTime * 10.0f);
 
-            Debug.Log("Hit");
             if (dir.magnitude > 1.5f)
             {
                 isFollow = true;
@@ -79,7 +78,22 @@ public class ItemController : MonoBehaviour
     {
         if(!isHit && collision.CompareTag("ItemCollider"))
         {
-            isHit = true;
+            // 자석을 먹은 상태이면 exp만 자석 영향을 받도록
+            if(GameManager.Instance.Player.itemCollider.radius == 100.0f)
+            {
+                switch (_type)
+                {
+                    case Define.ItemList.Mag:
+                    case Define.ItemList.Health:
+                    case Define.ItemList.Chest:
+                        break;
+                    default:
+                        isHit = true;
+                        break;
+                }
+            }
+            else
+                isHit = true;
         }
         else if(isHit && collision.CompareTag("Player")) // 아이템 획득하기
         {
@@ -109,15 +123,18 @@ public class ItemController : MonoBehaviour
     IEnumerator CoMagItem()
     {
         curRadius = GameManager.Instance.Player.itemCollider.radius;
+        
         GameManager.Instance.Player.itemCollider.radius = 100.0f;
-        yield return new WaitForSeconds(1.0f);
+        
+        yield return new WaitForSeconds(0.1f);
         GameManager.Instance.Player.itemCollider.radius = 0.5f;
+        
         gameObject.SetActive(false);
     }
     private void RandomItem()
     {
-        // 2.5% 확률로 경험치가 아닌 자석과 체력, 상자 아이템으로 스폰
-        int randInt = Random.Range(0, 40);
+        // 2% 확률로 경험치가 아닌 자석과 체력, 상자 아이템으로 스폰
+        int randInt = Random.Range(0, 50);
         switch(randInt)
         {
             case 4: // 자석
