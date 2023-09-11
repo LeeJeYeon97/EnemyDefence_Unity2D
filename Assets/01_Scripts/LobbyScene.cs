@@ -9,8 +9,9 @@ public class LobbyScene : MonoBehaviour
 {
 
     private Button startButton;
+    private Button endButton;
     private GameObject player;
-    private Image fadeImage;
+    public Image fadeImage;
     Vector3 dir;
     Vector3 randPos;
     float randomTime;
@@ -19,13 +20,19 @@ public class LobbyScene : MonoBehaviour
     {
         startButton = GameObject.Find("StartButton").GetComponent<Button>();
         startButton.onClick.AddListener(() => OnClickStartButton());
+        endButton = GameObject.Find("EndButton").GetComponent<Button>();
+        endButton.onClick.AddListener(() => OnClickEndButton());
 
         player = GameObject.Find("LobbyPlayer");
 
-        fadeImage = GameObject.Find("FadeImg").GetComponent<Image>();
+        if (fadeImage == null)
+            fadeImage = GameObject.Find("FadeImg").GetComponent<Image>();
+
+        else fadeImage.gameObject.SetActive(true);
 
         randPos = GetRandomPos();
         fadeIn = true;
+        SoundManager.instance.PlayBgm(true, Define.Bgm.LobbyBgm);
     }
 
     void Update()
@@ -41,6 +48,7 @@ public class LobbyScene : MonoBehaviour
 
         if(fadeImage.color.a >= 1 && fadeIn ==false)
         {
+            SoundManager.instance.PlayBgm(false);
             SceneManager.LoadScene("GameScene");
         }
         PlayerMove();
@@ -81,7 +89,9 @@ public class LobbyScene : MonoBehaviour
     }
     void OnClickStartButton()
     {
+        SoundManager.instance.PlaySfx(Define.Sfx.Select);
         fadeIn = false;
+
     }
     void FadeIn()
     {
@@ -103,5 +113,9 @@ public class LobbyScene : MonoBehaviour
             color.a += Time.deltaTime;
         }
         fadeImage.color = color;
+    }
+    void OnClickEndButton()
+    {
+        Application.Quit();
     }
 }

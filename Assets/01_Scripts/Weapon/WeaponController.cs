@@ -33,7 +33,6 @@ public class WeaponController : MonoBehaviour
         Level++;
         _damage = _data.Damages[Level - 1];
 
-        if(_data.attackDelay.Length > 0)
-            _attackDelay = _data.attackDelay[Level - 1];
+        _attackDelay = _data.attackDelay[Level - 1];
     }
 }

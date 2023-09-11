@@ -48,6 +48,7 @@ public class PlayerStatController : MonoBehaviour
         level++;
         GameManager.Instance.IsPause = true;
 
+        SoundManager.instance.PlaySfx(Define.Sfx.LevelUp1);
         Managers.UI.ShowPopupUI<UI_LevelUpPopup>("LevelUpPopup");
     }
     public void GetExp(float exp)
@@ -64,7 +65,7 @@ public class PlayerStatController : MonoBehaviour
     public void LevelUpStat()
     {
         moveSpeed = _data.speedDatas[speedLevel - 1];
-        maxHp = maxHp + (maxHp * _data.healthRatio);
+        maxHp = _data.healthDatas[healthLevel - 1];
 
         GameManager.Instance.Player.MaxHp = maxHp;
     }

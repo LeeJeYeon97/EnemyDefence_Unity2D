@@ -18,7 +18,7 @@ public class StatData : ScriptableObject
     [Header("Health Data")]
     public float MaxHp;
     public int hpLevel;
-    public float healthRatio;
+    public float[] healthDatas;
     public Sprite healthIcon;
 
     [Header("Speed Data")]

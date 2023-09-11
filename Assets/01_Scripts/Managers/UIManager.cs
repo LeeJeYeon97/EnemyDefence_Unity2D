@@ -59,6 +59,7 @@ public class UIManager
 
         go.transform.SetParent(root.transform);
 
+        SoundManager.instance.FilterBgm(true);
         return popup;
     }
     
@@ -88,6 +89,7 @@ public class UIManager
         //popup.gameObject.SetActive(false);
         popup = null;
         _order--;
+        SoundManager.instance.FilterBgm(false);
     }
     public void CloseAllPopupUI()
     {

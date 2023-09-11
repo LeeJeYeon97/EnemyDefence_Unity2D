@@ -108,7 +108,15 @@ public class ItemController : MonoBehaviour
                     break;
                 case Define.ItemList.Chest:
                     // ¹«±â ·£´ý »Ì±â
-                    Managers.UI.ShowPopupUI<UI_SelectPopup>("SelectPopup");
+                    if(GameManager.Instance.Player._weaponList.Count 
+                        == System.Enum.GetValues(typeof(Define.WeaponType)).Length)
+                    {
+                        Managers.UI.ShowPopupUI<UI_LevelUpPopup>("LevelUpPopup");
+                    }
+                    else
+                    {
+                        Managers.UI.ShowPopupUI<UI_SelectPopup>("SelectPopup");
+                    }
                     GameManager.Instance.IsPause = true;
                     gameObject.SetActive(false);
                     break;
@@ -117,7 +125,7 @@ public class ItemController : MonoBehaviour
                     gameObject.SetActive(false);
                     break;
             }
-            
+            SoundManager.instance.PlaySfx(Define.Sfx.GetItem);
         }
     }
     IEnumerator CoMagItem()

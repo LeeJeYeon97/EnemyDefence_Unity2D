@@ -68,12 +68,13 @@ public class UI_Hud : UI_Scene
         Vector3 pos = Camera.main.WorldToScreenPoint(GameManager.Instance.Player.transform.position);
 
         _hpBar.GetComponent<RectTransform>().position = pos + new Vector3(0, -230, 0);
+        _hpBar.value = _player._stat.curHp / _player._stat.maxHp;
     }
     private void SetHud()
     {
         _killText.text = $"{_player.kill}";
         _levelText.text = $"Lv:{_player._stat.level}";
-        _hpBar.value = _player.CurHp / _player.MaxHp;
+        _hpBar.value = _player._stat.curHp / _player._stat.maxHp;
     }
     private void SetExpBar()
     {

@@ -34,7 +34,7 @@ public class PlayerController : CreatureController
 
     private void FixedUpdate()
     {
-        
+        if (!GameManager.Instance.GameStart) return;
         if (IsDie) return;
         
         Move();
@@ -61,5 +61,27 @@ public class PlayerController : CreatureController
         if (!_anim.GetCurrentAnimatorStateInfo(0).IsName("Hit"))
             _anim.SetTrigger("Hit");
     }
-    
+    public override void OnDamge(float damage)
+    {
+        if (IsDie) return;
+
+        _stat.curHp -= damage;
+        if(_stat.curHp <= 0)
+        {
+            // 게임 종료
+            IsDie = true;
+            _anim.SetTrigger("Die");
+            Managers.Pool.ClearPool();
+            foreach (var weapon in _weaponList)
+            {
+                weapon.SetActive(false);
+            }
+        }
+    }
+    public void PlayerDieEvent()
+    {
+        Managers.UI.ShowPopupUI<UI_ResultPopup>("ResultPopup");
+        GameManager.Instance.IsPause = true;
+    }
+
 }

@@ -4,13 +4,6 @@ using UnityEngine;
 
 public class Define
 {
-    public class MonsterData
-    {
-        public MonsterName name;
-        public float moveSpeed;
-        public float maxHp;
-        public float attackPower;
-    }
     public enum PoolObject
     {
         Monster,
@@ -19,10 +12,10 @@ public class Define
     }
     public enum MonsterName
     {
-        Bat = 0,
-        Chicken = 1,
-        Bunny = 2,
-        Rino = 3,
+        Bat,
+        Chicken,
+        Bunny,
+        Rino,
     }
     public enum ItemList
     {
@@ -34,12 +27,6 @@ public class Define
         Health,
         Mag,
         Chest,
-    }
-    public enum MonsterType
-    {
-        Melee,
-        Ranged,
-        Boss,
     }
     public enum WeaponType
     {
@@ -56,5 +43,23 @@ public class Define
     {
         Speed,
         Health,
+    }
+    public enum Sfx
+    {
+        Dead,
+        Hit0,
+        Hit1,
+        LevelUp,
+        LevelUp1,
+        Lose,
+        Select,
+        Win,
+        GetItem,
+        Shot,
+    }
+    public enum Bgm
+    {
+        LobbyBgm,
+        GameBgm,
     }
 }

@@ -25,7 +25,7 @@ public class GameManager : MonoBehaviour
     
     
     public int level;
-    public float maxLevel;
+    public int maxLevel;
 
     // 게임 시간
     public float gameTime;
@@ -38,18 +38,37 @@ public class GameManager : MonoBehaviour
     public Image fadeImage;
     public bool fadeIn = true;
     public bool GameStart = false;
+
+    public GameObject joyStick;
+
     private void Awake()
     {
         _instance = this;
 
         Player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
-        //maxLevel = Enum.GetValues(typeof(Define.MonsterName)).Length;
-        level = 1;
-        maxLevel = 10;
-        maxGameTime = maxLevel * 60.0f;
-        fadeImage = GameObject.Find("FadeImage").GetComponent<Image>();
-        fadeIn = true;
         
+        maxLevel = 5;
+        level = 1;
+        maxGameTime = 300.0f;
+
+        if (fadeImage == null)
+            fadeImage = GameObject.Find("FadeImage").GetComponent<Image>();
+        else fadeImage.gameObject.SetActive(true);
+
+        fadeIn = true;
+        Application.targetFrameRate = 144;
+        joyStick.SetActive(false);
+
+    }
+    private void OnEnable()
+    {
+        //PlayerInputController.OnStartTouch += MoveJoyStick;
+        //PlayerInputController.OnEndTouch += HideJoyStick;
+    }
+    private void OnDisable()
+    {
+        //PlayerInputController.OnStartTouch -= MoveJoyStick;
+        //PlayerInputController.OnEndTouch -= HideJoyStick;
     }
     private void Update()
     {
@@ -59,9 +78,9 @@ public class GameManager : MonoBehaviour
             {
                 fadeIn = false;
                 Managers.UI.ShowPopupUI<UI_SelectPopup>("SelectPopup");
+                SoundManager.instance.PlayBgm(true, Define.Bgm.GameBgm);
                 IsPause = true;
                 GameStart = true;
-
             }
             FadeIn();
         }
@@ -71,6 +90,8 @@ public class GameManager : MonoBehaviour
             if(fadeImage.color.a >= 1)
             {
                 Managers.Pool.ClearPool();
+
+                SoundManager.instance.PlayBgm(false,Define.Bgm.GameBgm);
                 SceneManager.LoadScene("LobbyScene");
             }
         }
@@ -84,10 +105,17 @@ public class GameManager : MonoBehaviour
             Time.timeScale = 1;
             gameTime += Time.deltaTime;
 
-            level = Mathf.FloorToInt(gameTime / 120.0f);
-            if (gameTime > maxGameTime)
+            level = Mathf.FloorToInt(gameTime / 60.0f);
+            
+            if (level > maxLevel) level = maxLevel;
+            if (gameTime > maxGameTime && GameStart)
             {
                 gameTime = maxGameTime;
+                // 게임 클리어
+
+                Managers.Pool.ClearPool();
+                Managers.UI.ShowPopupUI<UI_ResultPopup>("ResultPopup");
+                IsPause = true;
             }            
         }
     }
@@ -112,5 +140,16 @@ public class GameManager : MonoBehaviour
             color.a += Time.deltaTime;
         }
         fadeImage.color = color;
+    }
+
+    public void MoveJoyStick(Vector2 screenPos, float time)
+    {
+        Vector2 screenCoordinates = new Vector3(screenPos.x, screenPos.y);
+        joyStick.transform.position = screenCoordinates;
+        joyStick.SetActive(true);
+    }
+    public void HideJoyStick(Vector2 screenPos, float time)
+    {
+        joyStick.SetActive(false);
     }
 }

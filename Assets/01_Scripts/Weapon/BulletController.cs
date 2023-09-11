@@ -66,5 +66,11 @@ public class BulletController : MonoBehaviour
         if(_count <= 0)
             gameObject.SetActive(false);
     }
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (!collision.CompareTag("Area")) return;
+
+        gameObject.SetActive(false);
+    }
 }
 

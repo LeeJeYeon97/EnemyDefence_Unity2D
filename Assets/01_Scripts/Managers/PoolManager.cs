@@ -89,7 +89,9 @@ public class PoolManager
             foreach(GameObject go in pool)
             {
                 if (go.activeSelf == true)
+                {
                     go.SetActive(false);
+                }   
             }
         }
     }

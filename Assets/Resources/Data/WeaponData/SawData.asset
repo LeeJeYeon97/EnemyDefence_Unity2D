@@ -16,7 +16,6 @@ MonoBehaviour:
   WeaponName: 
   WeaponDesc: "\uCE90\uB9AD\uD130 \uC8FC\uBCC0\uC744 \uD68C\uC804\uD558\uBA70 \uACF5\uACA9\uD569\uB2C8\uB2E4."
   Icon: {fileID: 21300000, guid: ca5ce7f3f3ac3bb499d37119b1867d7e, type: 3}
-  WeaponObject: {fileID: 2242440470058172955, guid: 080935867081b594cb57f552c67a159a, type: 3}
   Damage: 1
   Damages:
   - 2
@@ -24,3 +23,9 @@ MonoBehaviour:
   - 4
   - 5
   - 6
+  attackDelay:
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0

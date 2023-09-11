@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -11,6 +12,11 @@ public class MonsterController : CreatureController
     private Define.MonsterName _monsterName;
 
     public Slider hpBar;
+    public bool isKnockBack;
+    public float knockBackTime;
+    WaitForFixedUpdate wait;
+    public Action KnockBackEvt;
+    public float damage;
 
     protected override void Init()
     {
@@ -18,46 +24,42 @@ public class MonsterController : CreatureController
     }
     public void SpawnInit(int monsterLevel)
     {
-        switch (monsterLevel)
-        {
-            // bat
-            case (int)Define.MonsterName.Bat:
-                MaxHp = 1;
-                MoveSpeed = 1.0f;
-                _monsterName = Define.MonsterName.Bat;
-                break;
-            case (int)Define.MonsterName.Chicken:
-                MaxHp = 2;
-                MoveSpeed = 2.0f;
-                _monsterName = Define.MonsterName.Chicken;
-                break;
-            case (int)Define.MonsterName.Bunny:
-                MaxHp = 3;
-                MoveSpeed = 3.0f;
-                _monsterName = Define.MonsterName.Bunny;
-                break;
-            case (int)Define.MonsterName.Rino:
-                MaxHp = 4;
-                MoveSpeed = 4.0f;
-                _monsterName = Define.MonsterName.Rino;
-                break;
-        }
-        _anim.runtimeAnimatorController = RunAnim[monsterLevel];
+        string key = Enum.GetName(typeof(Define.MonsterName), monsterLevel);
+        MonsterData data = Managers.Data.GetData<MonsterData>(key);
+        MaxHp = data.MaxHp;
+        MoveSpeed = data.MoveSpeed;
+        _monsterName = data._name;
+        damage = data.Damage;
+
+        _anim.runtimeAnimatorController = data.anim;
+        
         _target = GameManager.Instance.Player;
         _collider.enabled = true;
         IsDie = false;
         CurHp = MaxHp;
 
         hpBar.value = CurHp / MaxHp;
+
+        wait = new WaitForFixedUpdate();
+        KnockBackEvt -= (() => { StartCoroutine(CoKnockBack()); });
+        KnockBackEvt += (() => { StartCoroutine(CoKnockBack()); });
+
+        
     }
     private void FixedUpdate()
     {
-        
-        if (IsDie) return;
-
-        hpBar.value = CurHp / MaxHp;
+        //if (IsDie || _anim.GetCurrentAnimatorStateInfo(0).IsName("Hit"))
+        //{
+        //    return;
+        //}
+        if (!GameManager.Instance.GameStart) return;
+        if (IsDie)
+            return;
 
         Move();
+        
+        hpBar.value = CurHp / MaxHp;
+
     }
     private void Move()
     {
@@ -77,8 +79,27 @@ public class MonsterController : CreatureController
         if(collision.CompareTag("Weapon"))
         {
             if (!_anim.GetCurrentAnimatorStateInfo(0).IsName("Hit"))
+            {
                 _anim.SetTrigger("Hit");
+            }
         }
+    }
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (IsDie) return;
+        if (!collision.gameObject.CompareTag("Player"))
+            return;
+
+        collision.gameObject.GetComponent<PlayerController>().OnDamge(damage);
+    }
+    IEnumerator CoKnockBack()
+    {
+        yield return wait;
+
+        Vector3 playerPos = GameManager.Instance.Player.transform.position;
+        Vector3 dirVec = transform.position - playerPos;
+
+        _rb.AddForce(dirVec.normalized * 3, ForceMode2D.Impulse);
     }
     public override void OnDamge(float damage)
     {
@@ -87,9 +108,11 @@ public class MonsterController : CreatureController
         CurHp -= damage;
 
         hpBar.value = CurHp / MaxHp;
+        SoundManager.instance.PlaySfx(Define.Sfx.Hit1);
 
         if (CurHp <= 0)
         {
+            SoundManager.instance.PlaySfx(Define.Sfx.Dead, 0.5f);
             IsDie = true;
             _collider.enabled = false;
 

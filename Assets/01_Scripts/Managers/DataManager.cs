@@ -12,6 +12,7 @@ public class DataManager
     public void Init()
     {
         SetWeaponData();
+        SetMonsterData();
         SetStatData();
     }
 
@@ -34,6 +35,17 @@ public class DataManager
         {
             string name = Enum.GetName(typeof(Define.Stats), i);
             ScriptableObject data = Resources.Load<ScriptableObject>($"Data/StatData/{name}Data");
+            _datas.Add(name, data);
+        }
+    }
+    private void SetMonsterData()
+    {
+        int length = Enum.GetValues(typeof(Define.MonsterName)).Length;
+
+        for (int i = 0; i < length; i++)
+        {
+            string name = Enum.GetName(typeof(Define.MonsterName), i);
+            ScriptableObject data = Resources.Load<ScriptableObject>($"Data/MonsterData/{name}Data");
             _datas.Add(name, data);
         }
     }

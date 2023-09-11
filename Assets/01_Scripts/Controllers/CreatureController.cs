@@ -19,17 +19,9 @@ public class CreatureController : MonoBehaviour
     [Range(0f, 20f)]
     protected float MoveSpeed;
 
-    [SerializeField]
-    [Range(0f, 20f)]
     public float CurHp;
-
-    [SerializeField]
-    [Range(0f, 20f)]
     public float MaxHp;
 
-    [SerializeField]
-    [Range(0f, 20f)]
-    protected float AttackPower;
 
     public bool IsDie = false;
     #endregion

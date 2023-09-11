@@ -10,6 +10,7 @@ public class SwordController : WeaponController
     bool isAttack = false;
     float startAngle = 0;
     float endAngle = 0;
+    bool isRight = false;
     private void Start()
     {
         Init();    }
@@ -26,7 +27,7 @@ public class SwordController : WeaponController
             SetRotate();
         if (isAttack)
             AttackRotate();
-
+        
         Attack();
     }
     private void SetRotate()
@@ -40,11 +41,14 @@ public class SwordController : WeaponController
         {
             startAngle = transform.eulerAngles.z - 40;
             endAngle = transform.eulerAngles.z + 40;
+            isRight = false;
+            
         }
         else if(transform.eulerAngles.z >= 180 && transform.eulerAngles.z <= 360)
         {
             startAngle = transform.eulerAngles.z + 40;
             endAngle = transform.eulerAngles.z - 40;
+            isRight = true;
         }
     }
     private void Attack()
@@ -57,34 +61,43 @@ public class SwordController : WeaponController
         {
             transform.eulerAngles = new Vector3(0, 0, startAngle);
             // 공격 로직
-            isAttack = true;    
+            isAttack = true; 
         }
     }
     private void AttackRotate()
     {
         // 시작 지점부터 회전시키기
-        if (transform.eulerAngles.z > 0 && transform.eulerAngles.z < 180) // 왼쪽
+        if(isRight)
         {
-            transform.eulerAngles += new Vector3(0, 0, 200.0f * Time.deltaTime);
+            transform.eulerAngles -= new Vector3(0, 0, 500.0f * Time.deltaTime);
+            if (transform.eulerAngles.z < endAngle)
+            {
+                
+                isAttack = false;
+                _attackDelay = _data.attackDelay[Level - 1];
+            }
+        }
+        else
+        {
+            transform.eulerAngles += new Vector3(0, 0, 500.0f * Time.deltaTime);
             if (transform.eulerAngles.z > endAngle)
             {
+                
                 isAttack = false;
                 _attackDelay = _data.attackDelay[Level - 1];
             }
         }
-        else if (transform.eulerAngles.z >= 180 && transform.eulerAngles.z <= 360)
-        {
-            transform.eulerAngles -= new Vector3(0, 0, 200.0f * Time.deltaTime);
-            if(transform.eulerAngles.z < endAngle)
-            {
-                isAttack = false;
-                _attackDelay = _data.attackDelay[Level - 1];
-            }
-        }
-        
     }
     public override void LevelUp()
     {
         base.LevelUp();
+    }
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (!collision.gameObject.CompareTag("Monster")) return;
+
+        // 몬스터 넉백 시키기
+        collision.GetComponent<CreatureController>().OnDamge(_damage);
+        collision.GetComponent<MonsterController>().KnockBackEvt.Invoke();
     }
 }

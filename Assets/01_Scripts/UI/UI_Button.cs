@@ -95,7 +95,12 @@ public class UI_Button : UI_Base
                 weapon.transform.localPosition = Vector3.zero;
                 break;
             case Define.WeaponType.Sword:
-
+                go = Resources.Load<GameObject>("Weapon/SwordWeapon");
+                weapon = Instantiate(go);
+                GameManager.Instance.Player.GetComponent<PlayerController>()._weaponList.Add(weapon);
+                weapon.transform.SetParent(GameManager.Instance.Player.transform);
+                weapon.transform.rotation = Quaternion.Euler(Vector3.zero);
+                weapon.transform.localPosition = Vector3.zero;
                 break;
             case Define.WeaponType.Gun:
                 go = Resources.Load<GameObject>("Weapon/GunWeapon");
@@ -106,15 +111,17 @@ public class UI_Button : UI_Base
                 weapon.transform.localPosition = Vector3.zero;
                 break;
         }
+        SoundManager.instance.PlaySfx(Define.Sfx.Select);
         GameManager.Instance.IsPause = false;
         Managers.UI.ClosePopupUI();
     }
     public void LevelUpWeapon(GameObject weapon)
     {
         GameManager.Instance.IsPause = false;
+        SoundManager.instance.PlaySfx(Define.Sfx.Select);
         // TODO
         weapon.GetComponent<WeaponController>().LevelUp();
-
+        SoundManager.instance.PlaySfx(Define.Sfx.Select);
         Managers.UI.ClosePopupUI();
     }
     public void LevelUpStat(string key,PlayerStatController stat)
@@ -130,6 +137,7 @@ public class UI_Button : UI_Base
         }
         GameManager.Instance.Player.GetComponent<PlayerStatController>().LevelUpStat();
         GameManager.Instance.IsPause = false;
+        SoundManager.instance.PlaySfx(Define.Sfx.Select);
         Managers.UI.ClosePopupUI();
     }
 }

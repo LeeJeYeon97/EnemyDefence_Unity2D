@@ -78,10 +78,11 @@ public class GunController : WeaponController
             }
             else
             {
+                
                 GameObject bullet = Managers.Pool.Get(Enum.GetName(typeof(Define.PoolObject), Define.PoolObject.Bullet));
                 bullet.GetComponent<BulletController>().SetTarget(_data, Level, nearestTarget);
             }
-            
+            SoundManager.instance.PlaySfx(Define.Sfx.Shot);
             _attackDelay = _data.attackDelay[Level - 1];
         }
     }
