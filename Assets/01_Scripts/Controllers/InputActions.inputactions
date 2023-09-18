@@ -13,15 +13,6 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
-                },
-                {
-                    "name": "JoyStickMove",
-                    "type": "Value",
-                    "id": "4dfcc5a6-bf23-4af4-ba2b-a80c055ad189",
-                    "expectedControlType": "Touch",
-                    "processors": "",
-                    "interactions": "Press",
-                    "initialStateCheck": true
                 }
             ],
             "bindings": [
@@ -33,85 +24,6 @@
                     "processors": "",
                     "groups": "",
                     "action": "Move",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "4331692a-660e-40dd-968b-b1c84a172238",
-                    "path": "<Touchscreen>/touch0",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "JoyStickMove",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                }
-            ]
-        },
-        {
-            "name": "Touch",
-            "id": "d361c7fc-14ae-4d40-8baa-1aaad9c50186",
-            "actions": [
-                {
-                    "name": "TouchInput",
-                    "type": "PassThrough",
-                    "id": "d07b9301-c34c-4955-b07c-41d0380f5fa5",
-                    "expectedControlType": "",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
-                    "name": "TouchPress",
-                    "type": "Button",
-                    "id": "1b2556f5-9f71-42de-ac14-7d671ee57f7f",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
-                    "name": "TouchPosition",
-                    "type": "PassThrough",
-                    "id": "404a1e9b-1749-433a-84c0-356f80672d7e",
-                    "expectedControlType": "Vector2",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                }
-            ],
-            "bindings": [
-                {
-                    "name": "",
-                    "id": "c2f46522-f356-4951-9c7e-4e139b6fb40f",
-                    "path": "<Touchscreen>/primaryTouch",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "TouchInput",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "01635551-a4b2-49d0-8521-f98403733ed7",
-                    "path": "<Touchscreen>/primaryTouch/press",
-                    "interactions": "Press",
-                    "processors": "",
-                    "groups": "",
-                    "action": "TouchPress",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "04761775-f387-4487-abd8-d740187db718",
-                    "path": "<Touchscreen>/primaryTouch/position",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "TouchPosition",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

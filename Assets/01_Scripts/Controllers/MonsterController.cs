@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Drawing;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Windows;
@@ -15,8 +16,9 @@ public class MonsterController : CreatureController
     public bool isKnockBack;
     public float knockBackTime;
     WaitForFixedUpdate wait;
-    public Action KnockBackEvt;
+    public Action<float> KnockBackEvt;
     public float damage;
+    
 
     protected override void Init()
     {
@@ -41,10 +43,10 @@ public class MonsterController : CreatureController
         hpBar.value = CurHp / MaxHp;
 
         wait = new WaitForFixedUpdate();
-        KnockBackEvt -= (() => { StartCoroutine(CoKnockBack()); });
-        KnockBackEvt += (() => { StartCoroutine(CoKnockBack()); });
+        isKnockBack = false;
+        KnockBackEvt -= ((float power) => { StartCoroutine(CoKnockBack(power)); });
+        KnockBackEvt += ((float power) => { StartCoroutine(CoKnockBack(power)); });
 
-        
     }
     private void FixedUpdate()
     {
@@ -53,7 +55,7 @@ public class MonsterController : CreatureController
         //    return;
         //}
         if (!GameManager.Instance.GameStart) return;
-        if (IsDie)
+        if (IsDie || isKnockBack)
             return;
 
         Move();
@@ -92,14 +94,19 @@ public class MonsterController : CreatureController
 
         collision.gameObject.GetComponent<PlayerController>().OnDamge(damage);
     }
-    IEnumerator CoKnockBack()
+    IEnumerator CoKnockBack(float power)
     {
         yield return wait;
 
         Vector3 playerPos = GameManager.Instance.Player.transform.position;
         Vector3 dirVec = transform.position - playerPos;
+        isKnockBack = true;
+        _rb.velocity = Vector2.zero;
+        _rb.AddRelativeForce(dirVec * power, ForceMode2D.Impulse);
+        //_rb.AddForce(dirVec.normalized * 3, ForceMode2D.Impulse);
+        yield return new WaitForSeconds(0.2f);
+        isKnockBack = false;
 
-        _rb.AddForce(dirVec.normalized * 3, ForceMode2D.Impulse);
     }
     public override void OnDamge(float damage)
     {
@@ -118,7 +125,7 @@ public class MonsterController : CreatureController
 
             _anim.SetTrigger("Die");
             _target.kill++;
-            _target._stat.GetExpAction.Invoke();
+            //_target._stat.GetExpAction.Invoke();
         }
     }
     // 애니메이션 이벤트에서 호출

@@ -60,16 +60,6 @@ public class GameManager : MonoBehaviour
         joyStick.SetActive(false);
 
     }
-    private void OnEnable()
-    {
-        //PlayerInputController.OnStartTouch += MoveJoyStick;
-        //PlayerInputController.OnEndTouch += HideJoyStick;
-    }
-    private void OnDisable()
-    {
-        //PlayerInputController.OnStartTouch -= MoveJoyStick;
-        //PlayerInputController.OnEndTouch -= HideJoyStick;
-    }
     private void Update()
     {
         if (GameStart == false && fadeIn)

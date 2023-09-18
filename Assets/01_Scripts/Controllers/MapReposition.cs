@@ -16,8 +16,9 @@ public class MapReposition : MonoBehaviour
             return;
 
         Vector3 myPos = transform.position;
-        Vector3 playerPos = GameManager.Instance.Player.transform.position;
-   
+
+        Vector3 playerPos = GameObject.Find("Player").transform.position;
+        
         // 차이가 -값이 나오지않도록 절대값을 적용
         float diffX = Mathf.Abs(myPos.x - playerPos.x);
         float diffY = Mathf.Abs(myPos.y - playerPos.y);

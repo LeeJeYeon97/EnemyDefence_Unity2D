@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using System;
 using Unity.Mathematics;
 
@@ -24,6 +25,9 @@ public class PlayerStatController : MonoBehaviour
 
     public int statLength;
     public string[] statNames;
+
+    public Slider hpBar;
+
     void Start()
     {
         _data = Managers.Data.GetData<StatData>("Base");
@@ -41,7 +45,10 @@ public class PlayerStatController : MonoBehaviour
         speedLevel = _data.speedLevel;
         moveSpeed = _data.speedDatas[_data.speedLevel - 1];
 
-        GetExpAction.Invoke();
+    }
+    private void Update()
+    {
+        hpBar.value = curHp / maxHp;
     }
     private void LevelUp()
     {
@@ -60,7 +67,6 @@ public class PlayerStatController : MonoBehaviour
             curExp = 0;
             maxExP *= (float)1.5;
         }
-        GetExpAction.Invoke();
     }
     public void LevelUpStat()
     {

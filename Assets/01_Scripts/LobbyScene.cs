@@ -1,6 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Drawing;
+
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -10,20 +10,28 @@ public class LobbyScene : MonoBehaviour
 
     private Button startButton;
     private Button endButton;
+    private Button menuButton;
+
     private GameObject player;
     public Image fadeImage;
     Vector3 dir;
     Vector3 randPos;
     float randomTime;
     bool fadeIn;
+    string log;
+
+    public GameObject menuPanel;
+    
     void Start()
     {
         startButton = GameObject.Find("StartButton").GetComponent<Button>();
         startButton.onClick.AddListener(() => OnClickStartButton());
         endButton = GameObject.Find("EndButton").GetComponent<Button>();
         endButton.onClick.AddListener(() => OnClickEndButton());
+        menuButton = GameObject.Find("MenuButton").GetComponent<Button>();
+        menuButton.onClick.AddListener(() => OnClickMenuButton());
 
-        player = GameObject.Find("LobbyPlayer");
+        player = GameObject.Find("Player");
 
         if (fadeImage == null)
             fadeImage = GameObject.Find("FadeImg").GetComponent<Image>();
@@ -64,7 +72,7 @@ public class LobbyScene : MonoBehaviour
         {
             player.GetComponent<SpriteRenderer>().flipX = true;
         }
-        if(dir.magnitude > 0.01f)
+        if(dir.magnitude > 1f)
         {
             player.transform.Translate(dir.normalized * Time.deltaTime * 2.0f);
             player.GetComponent<Animator>().SetFloat("Speed", 2.0f);
@@ -117,5 +125,10 @@ public class LobbyScene : MonoBehaviour
     void OnClickEndButton()
     {
         Application.Quit();
+    }
+    
+    public void OnClickMenuButton()
+    {
+        menuPanel.gameObject.SetActive(true);
     }
 }

@@ -55,23 +55,10 @@ public class ItemController : MonoBehaviour
     {
         if (isHit && !isFollow)
         {
-            Vector3 dir = transform.position -
-                GameManager.Instance.Player.transform.position;
-        
-            transform.Translate(dir.normalized * Time.deltaTime * 10.0f);
-
-            if (dir.magnitude > 1.5f)
-            {
-                isFollow = true;
-            }
-        }
-        if(isFollow)
-        {
             Vector3 dir = GameManager.Instance.Player.transform.position
                 - transform.position;
-        
+
             transform.Translate(dir.normalized * Time.deltaTime * 7.0f);
-            
         }
     }
     private void OnTriggerEnter2D(Collider2D collision)
@@ -100,7 +87,8 @@ public class ItemController : MonoBehaviour
             switch (_type)
             {
                 case Define.ItemList.Mag:
-                    StartCoroutine(CoMagItem());
+                    GameManager.Instance.Player.itemCollider.radius = 100.0f;
+                    gameObject.SetActive(false);
                     break;
                 case Define.ItemList.Health:
                     collision.GetComponent<PlayerStatController>().curHp += 30;
@@ -128,16 +116,12 @@ public class ItemController : MonoBehaviour
             SoundManager.instance.PlaySfx(Define.Sfx.GetItem);
         }
     }
-    IEnumerator CoMagItem()
+    private void OnTriggerStay2D(Collider2D collision)
     {
-        curRadius = GameManager.Instance.Player.itemCollider.radius;
-        
-        GameManager.Instance.Player.itemCollider.radius = 100.0f;
-        
-        yield return new WaitForSeconds(0.1f);
-        GameManager.Instance.Player.itemCollider.radius = 0.5f;
-        
-        gameObject.SetActive(false);
+        if(collision.CompareTag("Player"))
+        {
+            gameObject.SetActive(false);
+        }
     }
     private void RandomItem()
     {

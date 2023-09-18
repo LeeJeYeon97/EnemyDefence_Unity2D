@@ -21,6 +21,7 @@ public class PlayerController : CreatureController
     public int kill;
 
     public CircleCollider2D itemCollider;
+    private float colliderTime = 0.1f;
     #endregion
 
     
@@ -38,6 +39,15 @@ public class PlayerController : CreatureController
         if (IsDie) return;
         
         Move();
+        if(itemCollider.radius == 100.0f)
+        {
+            colliderTime -= Time.fixedDeltaTime;
+            if(colliderTime <= 0)
+            {
+                itemCollider.radius = 0.5f;
+                colliderTime = 0.1f;
+            }
+        }
     }
     private void Move()
     {
@@ -66,10 +76,14 @@ public class PlayerController : CreatureController
         if (IsDie) return;
 
         _stat.curHp -= damage;
+        SoundManager.instance.PlaySfx(Define.Sfx.Hit0);
+
         if(_stat.curHp <= 0)
         {
             // 게임 종료
             IsDie = true;
+
+            SoundManager.instance.PlaySfx(Define.Sfx.Dead);
             _anim.SetTrigger("Die");
             Managers.Pool.ClearPool();
             foreach (var weapon in _weaponList)

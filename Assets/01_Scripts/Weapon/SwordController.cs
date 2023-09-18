@@ -6,14 +6,12 @@ using UnityEngine.UIElements;
 
 public class SwordController : WeaponController
 {
+    public float[] knockBackPower;
 
-    bool isAttack = false;
-    float startAngle = 0;
-    float endAngle = 0;
-    bool isRight = false;
     private void Start()
     {
-        Init();    }
+        Init();    
+    }
     protected override void Init()
     {
         base.Init();
@@ -23,12 +21,7 @@ public class SwordController : WeaponController
     }
     private void Update()
     {
-        if(!isAttack)
-            SetRotate();
-        if (isAttack)
-            AttackRotate();
-        
-        Attack();
+        SetRotate();
     }
     private void SetRotate()
     {
@@ -36,57 +29,6 @@ public class SwordController : WeaponController
         float angle = - Mathf.Atan2(dir.x, dir.y) * Mathf.Rad2Deg;
 
         transform.eulerAngles = new Vector3(0, 0, angle);
-
-        if(transform.eulerAngles.z > 0 && transform.eulerAngles.z < 180) // 왼쪽
-        {
-            startAngle = transform.eulerAngles.z - 40;
-            endAngle = transform.eulerAngles.z + 40;
-            isRight = false;
-            
-        }
-        else if(transform.eulerAngles.z >= 180 && transform.eulerAngles.z <= 360)
-        {
-            startAngle = transform.eulerAngles.z + 40;
-            endAngle = transform.eulerAngles.z - 40;
-            isRight = true;
-        }
-    }
-    private void Attack()
-    {
-        if (GameManager.Instance.Player.IsDie) return;
-
-
-        _attackDelay -= Time.deltaTime;
-        if (!isAttack && _attackDelay <= 0)
-        {
-            transform.eulerAngles = new Vector3(0, 0, startAngle);
-            // 공격 로직
-            isAttack = true; 
-        }
-    }
-    private void AttackRotate()
-    {
-        // 시작 지점부터 회전시키기
-        if(isRight)
-        {
-            transform.eulerAngles -= new Vector3(0, 0, 500.0f * Time.deltaTime);
-            if (transform.eulerAngles.z < endAngle)
-            {
-                
-                isAttack = false;
-                _attackDelay = _data.attackDelay[Level - 1];
-            }
-        }
-        else
-        {
-            transform.eulerAngles += new Vector3(0, 0, 500.0f * Time.deltaTime);
-            if (transform.eulerAngles.z > endAngle)
-            {
-                
-                isAttack = false;
-                _attackDelay = _data.attackDelay[Level - 1];
-            }
-        }
     }
     public override void LevelUp()
     {
@@ -98,6 +40,6 @@ public class SwordController : WeaponController
 
         // 몬스터 넉백 시키기
         collision.GetComponent<CreatureController>().OnDamge(_damage);
-        collision.GetComponent<MonsterController>().KnockBackEvt.Invoke();
+        collision.GetComponent<MonsterController>().KnockBackEvt.Invoke(knockBackPower[Level - 1]);
     }
 }

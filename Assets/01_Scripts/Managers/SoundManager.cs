@@ -93,6 +93,10 @@ public class SoundManager : MonoBehaviour
             break;
         }
     }
+    public void StopBGM()
+    {
+        bgmPlayer.Stop();
+    }
     public void PlayBgm(bool isPlay, Define.Bgm bgm = Define.Bgm.LobbyBgm)
     {
         if(isPlay)

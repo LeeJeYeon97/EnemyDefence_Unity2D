@@ -61,7 +61,7 @@ public class BulletController : MonoBehaviour
 
         _count--;
         
-        collision.GetComponent<CreatureController>().OnDamge(_damage);
+        collision.GetComponent<MonsterController>().OnDamge(_damage);
 
         if(_count <= 0)
             gameObject.SetActive(false);
