@@ -50,16 +50,11 @@ public class MonsterController : CreatureController
     }
     private void FixedUpdate()
     {
-        //if (IsDie || _anim.GetCurrentAnimatorStateInfo(0).IsName("Hit"))
-        //{
-        //    return;
-        //}
         if (!GameManager.Instance.GameStart) return;
         if (IsDie || isKnockBack)
             return;
 
         Move();
-        
         hpBar.value = CurHp / MaxHp;
 
     }
@@ -101,9 +96,10 @@ public class MonsterController : CreatureController
         Vector3 playerPos = GameManager.Instance.Player.transform.position;
         Vector3 dirVec = transform.position - playerPos;
         isKnockBack = true;
+
         _rb.velocity = Vector2.zero;
         _rb.AddRelativeForce(dirVec * power, ForceMode2D.Impulse);
-        //_rb.AddForce(dirVec.normalized * 3, ForceMode2D.Impulse);
+
         yield return new WaitForSeconds(0.2f);
         isKnockBack = false;
 
@@ -125,7 +121,7 @@ public class MonsterController : CreatureController
 
             _anim.SetTrigger("Die");
             _target.kill++;
-            //_target._stat.GetExpAction.Invoke();
+
         }
     }
     // 애니메이션 이벤트에서 호출

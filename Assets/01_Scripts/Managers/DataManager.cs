@@ -11,44 +11,23 @@ public class DataManager
 
     public void Init()
     {
-        SetWeaponData();
-        SetMonsterData();
-        SetStatData();
+        SetData(typeof(Define.WeaponType));
+        SetData(typeof(Define.MonsterName));
+        SetData(typeof(Define.Stats));
     }
 
-    private void SetWeaponData()
+    private void SetData(Type t)
     {
-        int length = Enum.GetValues(typeof(Define.WeaponType)).Length;
+        int length = Enum.GetValues(t).Length;
 
         for (int i = 0; i < length; i++)
         {
-            string name = Enum.GetName(typeof(Define.WeaponType), i);
-            ScriptableObject data = Resources.Load<ScriptableObject>($"Data/WeaponData/{name}Data");
+            string name = Enum.GetName(t, i);
+            ScriptableObject data = Resources.Load<ScriptableObject>($"Data/{name}Data");
             _datas.Add(name, data);
         }
     }
-    private void SetStatData() 
-    {
-        int length = Enum.GetValues(typeof(Define.Stats)).Length;
-
-        for (int i = 0; i < length; i++)
-        {
-            string name = Enum.GetName(typeof(Define.Stats), i);
-            ScriptableObject data = Resources.Load<ScriptableObject>($"Data/StatData/{name}Data");
-            _datas.Add(name, data);
-        }
-    }
-    private void SetMonsterData()
-    {
-        int length = Enum.GetValues(typeof(Define.MonsterName)).Length;
-
-        for (int i = 0; i < length; i++)
-        {
-            string name = Enum.GetName(typeof(Define.MonsterName), i);
-            ScriptableObject data = Resources.Load<ScriptableObject>($"Data/MonsterData/{name}Data");
-            _datas.Add(name, data);
-        }
-    }
+    
     public T GetData<T>(string key) where T : ScriptableObject
     {
         if (!_datas.ContainsKey(key))

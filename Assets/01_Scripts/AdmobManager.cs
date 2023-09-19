@@ -128,54 +128,6 @@ public class AdmobManager : MonoBehaviour
     }
     #endregion
 
-    #region 리워드 광고
-
-    // 리워드 광고 로드
-    public void LoadRewardedAd()
-    {
-        if(_rewardedAd != null)
-        {
-            _rewardedAd.Destroy();
-            _rewardedAd = null;
-        }
-
-        Debug.Log("Loading the rewarded ad.");
-
-        var adRequest = new AdRequest();
-        adRequest.Keywords.Add("unity-admob-sample");
-
-        RewardedAd.Load(_rewardTestId, adRequest,
-            (RewardedAd ad, LoadAdError error) =>
-            {
-                if (error != null || ad == null)
-                {
-                    Debug.LogError("Rewarded ad failed to load an ad " +
-                                   "with error : " + error);
-                    return;
-                }
-
-                Debug.Log("Rewarded ad loaded with response : "
-                          + ad.GetResponseInfo());
-
-                _rewardedAd = ad;
-
-            });
-    }
-    public void ShowRewardedAd()
-    {
-        const string rewardMsg =
-            "Rewarded ad rewarded the user. Type: {0}, amount: {1}.";
-
-        if (_rewardedAd != null && _rewardedAd.CanShowAd())
-        {
-            _rewardedAd.Show((Reward reward) =>
-            {
-                // TODO: Reward the user.
-                Debug.Log(String.Format(rewardMsg, reward.Type, reward.Amount));
-            });
-        }
-    }
-    #endregion
     private void RegisterFrontEventHandlers(InterstitialAd ad)
     {
         // Raised when the ad is estimated to have earned money.
@@ -214,4 +166,53 @@ public class AdmobManager : MonoBehaviour
                            "with error : " + error);
         };
     }
+
+    #region 리워드 광고
+
+    //// 리워드 광고 로드
+    //public void LoadRewardedAd()
+    //{
+    //    if(_rewardedAd != null)
+    //    {
+    //        _rewardedAd.Destroy();
+    //        _rewardedAd = null;
+    //    }
+    //
+    //    Debug.Log("Loading the rewarded ad.");
+    //
+    //    var adRequest = new AdRequest();
+    //    adRequest.Keywords.Add("unity-admob-sample");
+    //
+    //    RewardedAd.Load(_rewardTestId, adRequest,
+    //        (RewardedAd ad, LoadAdError error) =>
+    //        {
+    //            if (error != null || ad == null)
+    //            {
+    //                Debug.LogError("Rewarded ad failed to load an ad " +
+    //                               "with error : " + error);
+    //                return;
+    //            }
+    //
+    //            Debug.Log("Rewarded ad loaded with response : "
+    //                      + ad.GetResponseInfo());
+    //
+    //            _rewardedAd = ad;
+    //
+    //        });
+    //}
+    //public void ShowRewardedAd()
+    //{
+    //    const string rewardMsg =
+    //        "Rewarded ad rewarded the user. Type: {0}, amount: {1}.";
+    //
+    //    if (_rewardedAd != null && _rewardedAd.CanShowAd())
+    //    {
+    //        _rewardedAd.Show((Reward reward) =>
+    //        {
+    //            // TODO: Reward the user.
+    //            Debug.Log(String.Format(rewardMsg, reward.Type, reward.Amount));
+    //        });
+    //    }
+    //}
+    #endregion
 }

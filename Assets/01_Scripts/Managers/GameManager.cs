@@ -131,15 +131,4 @@ public class GameManager : MonoBehaviour
         }
         fadeImage.color = color;
     }
-
-    public void MoveJoyStick(Vector2 screenPos, float time)
-    {
-        Vector2 screenCoordinates = new Vector3(screenPos.x, screenPos.y);
-        joyStick.transform.position = screenCoordinates;
-        joyStick.SetActive(true);
-    }
-    public void HideJoyStick(Vector2 screenPos, float time)
-    {
-        joyStick.SetActive(false);
-    }
 }
